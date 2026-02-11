@@ -309,7 +309,7 @@
 
                 <div class="question">
                     <label class="question-label">1.4 Co považujete za největší bariéry?</label>
-                    <textarea name="q1_4"></textarea>
+                    <textarea name="q1_4" required></textarea>
                 </div>
             </div>
 
@@ -453,12 +453,12 @@
 
                 <div class="question">
                     <label class="question-label">5.2 Jaká opatření by bylo vhodné dále rozvíjet?</label>
-                    <textarea name="q5_2"></textarea>
+                    <textarea name="q5_2" required></textarea>
                 </div>
 
                 <div class="question">
                     <label class="question-label">5.3 Další komentáře:</label>
-                    <textarea name="q5_3"></textarea>
+                    <textarea name="q5_3" required></textarea>
                 </div>
             </div>
 
@@ -476,7 +476,7 @@
 
     <script>
         // DŮLEŽITÉ: Zde vložte URL vašeho Google Apps Script pro dotazník manažerů
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZqbclWuMwxaSjLdAHcB_Iwx8i3UG8Gq0sWqPtEHKmq5EPPeHhJN5qRGpBGk0-56gRDw/exec';
+        const GOOGLE_SCRIPT_URL = 'VLOŽTE_SEM_URL_APPS_SCRIPTU';
 
         document.getElementById('surveyForm').addEventListener('submit', async function(e) {
             e.preventDefault();
