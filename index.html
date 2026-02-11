@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluační dotazník pro manažery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            color: #1abc9c;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .intro {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #1abc9c;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .section:last-of-type {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .question-label {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+        
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .checkbox-item:hover, .radio-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .checkbox-item input, .radio-item input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .scale-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: nowrap;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .scale-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            flex: 1;
+        }
+        
+        .scale-item input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        
+        .scale-item label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #6c757d;
+            font-style: italic;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .scale-labels span:first-child {
+            text-align: left;
+        }
+        
+        .scale-labels span:last-child {
+            text-align: right;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #1abc9c;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(26, 188, 156, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #c3e6cb;
+            text-align: center;
+            font-weight: bold;
+            font-size: 22px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .container-hidden {
+            display: none;
+        }
+        
+        .error-message {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 2px solid #f5c6cb;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .scale-group {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <h1>Evaluační dotazník pro manažery</h1>
+        
+        <div class="intro">
+            <p>Prosíme vás o vyplnění dotazníku. Dotazník je anonymní a slouží k vyhodnocení přínosů projektu v oblasti pracovní flexibility a diversity z pohledu vedoucích pracovníků.</p>
+            <p style="margin-top: 10px;">Vaše odpovědi budou využity pro závěrečnou zprávu projektu a pro další rozvoj organizace.</p>
+            <p style="margin-top: 10px; font-weight: bold;">Děkujeme za vyplnění.</p>
+        </div>
+        
+        <form id="surveyForm">
+
+            <!-- SEKCE 1 -->
+            <div class="section">
+                <div class="section-title">1. IMPLEMENTACE FLEXIBILNÍCH FOREM PRÁCE</div>
+
+                <div class="question">
+                    <label class="question-label">1.1 Jsou Vám jasná pravidla pro využívání flexibilních forem práce?</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" name="q1_1" value="1" required><label>1</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_1" value="2"><label>2</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_1" value="3"><label>3</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_1" value="4"><label>4</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_1" value="5"><label>5</label></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 – vůbec ne</span>
+                        <span>5 – zcela</span>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">1.2 Do jaké míry se daří flexibilní formy práce reálně využívat ve Vašem týmu?</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" name="q1_2" value="1" required><label>1</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_2" value="2"><label>2</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_2" value="3"><label>3</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_2" value="4"><label>4</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_2" value="5"><label>5</label></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 – vůbec</span>
+                        <span>5 – velmi dobře</span>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">1.3 Jak hodnotíte připravenost zaměstnanců na práci ve flexibilním režimu?</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" name="q1_3" value="1" required><label>1</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_3" value="2"><label>2</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_3" value="3"><label>3</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_3" value="4"><label>4</label></div>
+                        <div class="scale-item"><input type="radio" name="q1_3" value="5"><label>5</label></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 – velmi nízká</span>
+                        <span>5 – velmi vysoká</span>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">1.4 Co považujete za největší bariéry?</label>
+                    <textarea name="q1_4"></textarea>
+                </div>
+            </div>
+
+            <!-- SEKCE 2 -->
+            <div class="section">
+                <div class="section-title">2. ŘÍZENÍ A PODPORA DIVERZITY</div>
+
+                <div class="question">
+                    <label class="question-label">2.1 Cítíte se dostatečně kompetentní v oblasti inkluzivního vedení lidí?</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" name="q2_1" value="1" required><label>1</label></div>
+                        <div class="scale-item"><input type="radio" name="q2_1" value="2"><label>2</label></div>
+                        <div class="scale-item"><input type="radio" name="q2_1" value="3"><label>3</label></div>
+                        <div class="scale-item"><input type="radio" name="q2_1" value="4"><label>4</label></div>
+                        <div class="scale-item"><input type="radio" name="q2_1" value="5"><label>5</label></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 – vůbec</span>
+                        <span>5 – zcela</span>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">2.2 Absolvoval/a jste v rámci projektu školení nebo koučink?</label>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="q2_2" value="Ano" required>
+                            <span>Ano</span>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="q2_2" value="Ne">
+                            <span>Ne</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">2.3 Pokud ano, byly pro Vás přínosné?</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" name="q2_3" value="1"><label>1</label></div>
+                        <div class="scale-item"><input type="radio" name="q2_3" value="2"><label>2</label></div>
+                        <div class="scale-item"><input type="radio" name="q2_3" value="3"><label>3</label></div>
+                        <div class="scale-item"><input type="radio" name="q2_3" value="4"><label>4</label></div>
+                        <div class="scale-item"><input type="radio" name="q2_3" value="5"><label>5</label></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 – vůbec</span>
+                        <span>5 – velmi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEKCE 3 -->
+            <div class="section">
+                <div class="section-title">3. PROFESNÍ ROZVOJ A HODNOCENÍ</div>
+
+                <div class="question">
+                    <label class="question-label">3.1 Máte k dispozici nástroje pro podporu profesního rozvoje zaměstnanců?</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" name="q3_1" value="1" required><label>1</label></div>
+                        <div class="scale-item"><input type="radio" name="q3_1" value="2"><label>2</label></div>
+                        <div class="scale-item"><input type="radio" name="q3_1" value="3"><label>3</label></div>
+                        <div class="scale-item"><input type="radio" name="q3_1" value="4"><label>4</label></div>
+                        <div class="scale-item"><input type="radio" name="q3_1" value="5"><label>5</label></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 – vůbec</span>
+                        <span>5 – zcela</span>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">3.2 Je systém hodnocení a odměňování srozumitelný a použitelný?</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" name="q3_2" value="1" required><label>1</label></div>
+                        <div class="scale-item"><input type="radio" name="q3_2" value="2"><label>2</label></div>
+                        <div class="scale-item"><input type="radio" name="q3_2" value="3"><label>3</label></div>
+                        <div class="scale-item"><input type="radio" name="q3_2" value="4"><label>4</label></div>
+                        <div class="scale-item"><input type="radio" name="q3_2" value="5"><label>5</label></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 – vůbec</span>
+                        <span>5 – zcela</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEKCE 4 -->
+            <div class="section">
+                <div class="section-title">4. DOPADY PROJEKTU</div>
+
+                <div class="question">
+                    <label class="question-label">4.1 Projekt přispěl ke zlepšení pracovních podmínek ve Vašem týmu.</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" name="q4_1" value="1" required><label>1</label></div>
+                        <div class="scale-item"><input type="radio" name="q4_1" value="2"><label>2</label></div>
+                        <div class="scale-item"><input type="radio" name="q4_1" value="3"><label>3</label></div>
+                        <div class="scale-item"><input type="radio" name="q4_1" value="4"><label>4</label></div>
+                        <div class="scale-item"><input type="radio" name="q4_1" value="5"><label>5</label></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 – vůbec</span>
+                        <span>5 – výrazně</span>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">4.2 Projekt zlepšil pracovní kulturu v organizaci.</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" name="q4_2" value="1" required><label>1</label></div>
+                        <div class="scale-item"><input type="radio" name="q4_2" value="2"><label>2</label></div>
+                        <div class="scale-item"><input type="radio" name="q4_2" value="3"><label>3</label></div>
+                        <div class="scale-item"><input type="radio" name="q4_2" value="4"><label>4</label></div>
+                        <div class="scale-item"><input type="radio" name="q4_2" value="5"><label>5</label></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 – vůbec</span>
+                        <span>5 – výrazně</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEKCE 5 -->
+            <div class="section">
+                <div class="section-title">5. CELKOVÉ HODNOCENÍ A DOPORUČENÍ</div>
+
+                <div class="question">
+                    <label class="question-label">5.1 Jak celkově hodnotíte přínos projektu?</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" name="q5_1" value="1" required><label>1</label></div>
+                        <div class="scale-item"><input type="radio" name="q5_1" value="2"><label>2</label></div>
+                        <div class="scale-item"><input type="radio" name="q5_1" value="3"><label>3</label></div>
+                        <div class="scale-item"><input type="radio" name="q5_1" value="4"><label>4</label></div>
+                        <div class="scale-item"><input type="radio" name="q5_1" value="5"><label>5</label></div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 – velmi nízký</span>
+                        <span>5 – velmi vysoký</span>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">5.2 Jaká opatření by bylo vhodné dále rozvíjet?</label>
+                    <textarea name="q5_2"></textarea>
+                </div>
+
+                <div class="question">
+                    <label class="question-label">5.3 Další komentáře:</label>
+                    <textarea name="q5_3"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Odeslat dotazník</button>
+
+            <div class="error-message" id="errorMessage">
+                ✗ Omlouváme se, při odesílání došlo k chybě. Zkuste to prosím znovu.
+            </div>
+        </form>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        ✓ Děkujeme! Váš dotazník byl úspěšně odeslán.
+    </div>
+
+    <script>
+        // DŮLEŽITÉ: Zde vložte URL vašeho Google Apps Script pro dotazník manažerů
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZqbclWuMwxaSjLdAHcB_Iwx8i3UG8Gq0sWqPtEHKmq5EPPeHhJN5qRGpBGk0-56gRDw/exec';
+
+        document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Odesílám...';
+
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            try {
+                const formData = new FormData(e.target);
+                const data = {
+                    timestamp: new Date().toISOString(),
+                };
+
+                for (let [key, value] of formData.entries()) {
+                    data[key] = value;
+                }
+
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                document.getElementById('mainContainer').classList.add('container-hidden');
+                successMessage.style.display = 'block';
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            } catch (error) {
+                console.error('Chyba:', error);
+                errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Odeslat dotazník';
+            }
+        });
+    </script>
+</body>
+</html>
